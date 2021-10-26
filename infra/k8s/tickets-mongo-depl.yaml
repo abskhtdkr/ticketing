@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tickets-mongo-depl
+spec:
+  replicas: 1
+  #with this we'll find the created pod.
+  selector:
+    matchLabels:
+      app: tickets-mongo
+  # this will create the pod with name tickets-mongo.
+  template:
+    metadata:
+      labels:
+        app: tickets-mongo
+    spec:
+      containers:
+        - name: tickets-mongo
+          image: mongo
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tickets-mongo-srv
+spec:
+  # selector will till service which pod it is going to have access to. (service will pod with the label tickets-mongo)
+  selector:
+    app: tickets-mongo
+  ports:
+    - name: db
+      protocol: TCP
+      port: 27017
+      targetPort: 27017

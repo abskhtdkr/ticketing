@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth-mongo-depl
+spec:
+  replicas: 1
+  #with this we'll find the created pod.
+  selector:
+    matchLabels:
+      app: auth-mongo
+  # this will create the pod with name auth-mongo.
+  template:
+    metadata:
+      labels:
+        app: auth-mongo
+    spec:
+      containers:
+        - name: auth-mongo
+          image: mongo
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: auth-mongo-srv
+spec:
+  # selector will till service which pod it is going to have access to. (service will pod with the label auth-mongo)
+  selector:
+    app: auth-mongo
+  ports:
+    - name: db
+      protocol: TCP
+      port: 27017
+      targetPort: 27017
