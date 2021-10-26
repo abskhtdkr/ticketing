@@ -3,11 +3,7 @@ import mongoose from 'mongoose';
 import jwt from 'jsonwebtoken';
 
 declare global {
-  namespace NodeJS {
-    interface Global {
-      signin(): string[];
-    }
-  }
+  var signin: (id?: string) => string[];
 }
 
 // if getting following error comment above global function and uncomment the below code.
